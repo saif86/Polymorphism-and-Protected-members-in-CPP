@@ -1,4 +1,4 @@
-# Polymorphism-and-Protected-members-in-CPP
+# Protected members in C++
 How to use Polymorphism and protected data members in C++
 
 ## Problem Statement
