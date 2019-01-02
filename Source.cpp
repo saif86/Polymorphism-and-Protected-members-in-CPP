@@ -38,8 +38,8 @@ public:
 	// setters
 	void SetTitle(const string& = "");
 	void SetArtist(const string& = "");
-	void SetValue(int = 0);
-	void SetPainting(const string& = "", const string& = "");
+	virtual void SetValue(int = 0);
+	virtual void SetPainting(const string& = "", const string& = "", int = 0);
 	/**
 	# @overload void SetPainting(const Painting& aPainting);
 	*/
@@ -76,8 +76,8 @@ public:
 // ACCESS
 	// setters
 	void SetValue(int = 25000);
-	void SetPainting(const string& = "", const string& = "");
-	void SetFamousPainting(const string& = "", const string& = "");
+	void SetPainting(const string& = "", const string& = "", int = 25000);
+	void SetFamousPainting(const string& = "", const string& = "", int = 25000);
 	/**
 	# @overload void SetFamousPainting(const FamousPainting& aFamousPainting);
 	*/
@@ -96,13 +96,13 @@ public:
 
 // Painting Default+Overloaded Constructor
 Painting::Painting(const string& aTitle, const string& aArtist, int aValue) : mTitle(aTitle), mArtist(aArtist), mValue(aValue) {
-	this->SetPainting(aTitle, aArtist);
+	this->SetPainting(aTitle, aArtist, aValue);
 }
 // end Painting constructor 
 
 // FamousPainting Default+Overloaded Constructor
 FamousPainting::FamousPainting(const string& aTitle, const string& aArtist, int aValue) : Painting(aTitle, aArtist, aValue) {
-	this->SetFamousPainting(aTitle, aArtist);
+	this->SetFamousPainting(aTitle, aArtist, aValue);
 }
 // end FamousPainting constructor 
 
@@ -140,15 +140,16 @@ void Painting::SetValue(int aValue) {
 // end function SetValue
 
 // function that sets the Painting
-void Painting::SetPainting(const string& aTitle, const string& aArtist) {
+void Painting::SetPainting(const string& aTitle, const string& aArtist, int aValue) {
 	this->SetTitle(aTitle);
 	this->SetArtist(aArtist);
+	this->SetValue(aValue);
 }
 // end function SetPainting
 
 // overloaded function that sets the Painting
 void Painting::SetPainting(const Painting &obj) {
-	this->SetPainting(obj.GetTitle(), obj.GetArtist());
+	this->SetPainting(obj.GetTitle(), obj.GetArtist(), obj.GetValue());
 }
 // end function SetPainting
 
@@ -186,22 +187,26 @@ void FamousPainting::SetValue(int aValue) {
 // end function SetValue
 
 // function that sets the Painting
-void FamousPainting::SetPainting(const string& aTitle, const string& aArtist) {
+void FamousPainting::SetPainting(const string& aTitle, const string& aArtist, int aValue) {
+	if (aValue == 0)
+		aValue = 25000;
 	this->SetTitle(aTitle);
 	this->SetArtist(aArtist);
+	this->SetValue(aValue);
 }
 // end function SetPainting
 
 // function that sets the FamousPainting
-void FamousPainting::SetFamousPainting(const string& aTitle, const string& aArtist) {
+void FamousPainting::SetFamousPainting(const string& aTitle, const string& aArtist, int aValue) {
 	this->SetTitle(aTitle);
 	this->SetArtist(aArtist);
+	this->SetValue(aValue);
 }
 // end function SetFamousPainting
 
 // overloaded function that sets the Painting
 void FamousPainting::SetFamousPainting(const FamousPainting &obj) {
-	this->SetFamousPainting(obj.GetTitle(), obj.GetArtist());
+	this->SetFamousPainting(obj.GetTitle(), obj.GetArtist(), obj.GetValue());
 }
 // end function SetFamousPainting
 
@@ -225,15 +230,11 @@ void main() {
 		cout << "Enter Name Of Artist: ";
 		getline(cin, name);
 
-		if (name == "degas" || name == "monet" || name == "picasso" || name == "rembrandt" || name == "Degas" || name == "Monet" || name == "Picasso" || name == "Rembrandt") {
+		if (name == "degas" || name == "monet" || name == "picasso" || name == "rembrandt" || name == "Degas" || name == "Monet" || name == "Picasso" || name == "Rembrandt") 
 			obj[i] = new FamousPainting;
-			cout << "Fanous" << endl;
-		}
-		else {
+		else 
 			obj[i] = new Painting;
-		}
 		obj[i]->SetPainting(title, name);
-
 	}
 
 	for (int i = 0; i<10; i++) 
